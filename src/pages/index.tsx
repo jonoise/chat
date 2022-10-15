@@ -1,19 +1,36 @@
 import type { NextPage } from 'next'
-import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { socket } from '../config/io'
+import { nanoid } from 'nanoid'
+import { TextInput } from '@/components/generics'
+import { useConnectionInfo } from '@/stores'
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    socket.on('r', (data) => console.log(data))
-  }, [])
+  const connectionInfo = useConnectionInfo((s) => s)
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    connectionInfo.setConnectionInfo(e.target.name, e.target.value)
+  }
 
-  const onClick = () => {
-    socket.emit('s', 'Hello from client')
+  const router = useRouter()
+
+  const joinRoom = () => {
+    router.push(`/random/${connectionInfo.room}`)
   }
 
   return (
-    <div>
-      <button onClick={onClick}>talk to my api</button>
+    <div className='flex flex-col px-10'>
+      <TextInput
+        onChange={onChange}
+        name='username'
+        placeholder='Ingresa tu username'
+      />
+      <TextInput
+        onChange={onChange}
+        name='room'
+        placeholder='Ingresa el ID del room'
+      />
+      <button onClick={() => joinRoom()}>join random chat</button>
     </div>
   )
 }
