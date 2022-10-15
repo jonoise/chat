@@ -1,10 +1,13 @@
 import create from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export const useConnectionInfo = create<ConnectionInfo>((set) => ({
-  username: '',
-  room: '',
-  setConnectionInfo: (name, value) => set((s) => ({ ...s, [name]: value })),
-}))
+export const useConnectionInfo = create(
+  persist<ConnectionInfo>((set) => ({
+    username: '',
+    room: '',
+    setConnectionInfo: (name, value) => set((s) => ({ ...s, [name]: value })),
+  }))
+)
 
 interface ConnectionInfo {
   username: string

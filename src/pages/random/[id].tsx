@@ -3,14 +3,15 @@ import { socket } from '@/config/io'
 import toast, { Toaster } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { useConnectionInfo } from '@/stores'
+import { nanoid } from 'nanoid'
 const RandomRoom = () => {
   const router = useRouter()
   const connectionInfo = useConnectionInfo((s) => s)
   useEffect(() => {
     router.isReady &&
       socket.emit('join-room', {
-        roomId: 'random',
-        user: { name: connectionInfo.username, id: 1 },
+        roomId: connectionInfo.room,
+        user: { name: connectionInfo.username, id: nanoid() },
         date: new Date(),
       })
 
