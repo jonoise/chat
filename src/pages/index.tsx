@@ -5,6 +5,7 @@ import { socket } from '../config/io'
 import { nanoid } from 'nanoid'
 import { TextInput } from '@/components/generics'
 import { useConnectionInfo } from '@/stores'
+import Button from '@/components/generics/Button'
 
 const Home: NextPage = () => {
   const connectionInfo = useConnectionInfo((s) => s)
@@ -30,7 +31,7 @@ const Home: NextPage = () => {
         name='room'
         placeholder='Ingresa el ID del room'
       />
-      <button onClick={() => joinRoom()}>join random chat</button>
+      <Button onClick={() => joinRoom()}>join random chat</Button>
     </div>
   )
 }
